@@ -1,9 +1,12 @@
 package test.tests;
 
+import org.openqa.selenium.support.ui.WebDriverWait;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import test.pages.LoginPage;
 import test.utils.BaseTest;
+import java.time.Duration;
 
 public class LoginTest extends BaseTest {
 
@@ -12,13 +15,14 @@ public class LoginTest extends BaseTest {
         LoginPage googlePage = new LoginPage(driver);
         googlePage.enterSearchText("Selenium WebDriver");
 
-        // Wait for results page to load
-        try { Thread.sleep(3000); } catch (Exception e) {}
+        // Wait properly for the title to update
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        wait.until(ExpectedConditions.titleContains("Selenium"));
 
-        String title = googlePage.getTitle();
+        String title = driver.getTitle();
         System.out.println("Page title is: " + title);
 
-        Assert.assertTrue(title.contains("Google"),
-            "Title should contain Google. Actual title: " + title);
+        Assert.assertTrue(title.contains("Selenium"),
+            "Title should contain Selenium. Actual title: " + title);
     }
 }
