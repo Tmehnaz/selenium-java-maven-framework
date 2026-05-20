@@ -29,9 +29,15 @@ public void setUp() throws Exception {
     if (browser.equalsIgnoreCase("chrome")){
         WebDriverManager.chromedriver().setup();
         ChromeOptions options = new ChromeOptions();
-        if(headless) options.addArguments("--headless");
-        options.addArguments("--start-maximized");
-        options.addArguments("--disable-notifications");
+        if(headless) {
+    options.addArguments("--headless");
+    options.addArguments("--no-sandbox");           // required on Linux CI
+    options.addArguments("--disable-dev-shm-usage"); // prevents Chrome crashes on CI
+    options.addArguments("--window-size=1920,1080"); // replaces --start-maximized in headless
+} else {
+    options.addArguments("--start-maximized");
+}
+options.addArguments("--disable-notifications");
         driver = new ChromeDriver(options);
 
     }else if(browser.equalsIgnoreCase("firefox")){
