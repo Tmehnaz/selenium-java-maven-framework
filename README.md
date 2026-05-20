@@ -22,3 +22,6 @@ mvn clean test
 
 ## Test Cases
 - Google Search functionality test
+
+## CI/CD
+Automated with GitHub Actions - runs Selenium tests on every push
